@@ -118,22 +118,26 @@
         .section-header h2 { font-size: 3rem; margin-bottom: 15px; }
         .section-header p { color: var(--text-muted); max-width: 500px; margin: 0 auto; }
 
-        /* --- SOBRE --- */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        /* --- SOBRE (ATUALIZADO PARA 3 PESSOAS) --- */
+        /* Alteração: Layout em bloco para acomodar 3 cartões lado a lado embaixo */
+        .about-wrapper { display: flex; flex-direction: column; gap: 60px; }
+        
+        .about-text { text-align: center; max-width: 800px; margin: 0 auto; }
         .about-text h3 { font-size: 2rem; margin-bottom: 20px; color: var(--accent-primary); }
         .about-text p { margin-bottom: 20px; color: var(--text-muted); }
 
-        .pillars-row { display: flex; gap: 30px; margin-top: 40px; }
-        .pillar-item { flex: 1; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .pillars-row { display: flex; gap: 30px; margin-top: 40px; justify-content: center; }
+        .pillar-item { flex: 1; max-width: 250px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); text-align: left; }
         .pillar-item i { color: var(--accent-primary); font-size: 1.5rem; margin-bottom: 10px; }
         .pillar-item h5 { color: white; margin-bottom: 5px; font-size: 1rem; }
         .pillar-item p { font-size: 0.8rem; color: #888; line-height: 1.4; }
 
-        .creators-wrapper { display: flex; gap: 20px; }
+        .creators-wrapper { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .creator-card {
             background: var(--bg-secondary); border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: 12px; flex: 1;
+            padding: 30px; border-radius: 12px; flex: 1; min-width: 300px;
             transition: var(--transition); position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
         }
         .creator-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .creator-img {
@@ -177,11 +181,9 @@
         .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; position: relative; z-index: 2; }
         
         .feature-card {
-            /* MUDANÇA: Mais transparente para ver as ondas */
             background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(8px); /* Efeito vidro fosco */
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px; padding: 40px; position: relative; overflow: hidden; cursor: default;
             transition: var(--transition);
@@ -281,10 +283,12 @@
         /* --- RESPONSIVO --- */
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.5rem; }
-            .about-grid, .showcase-grid { grid-template-columns: 1fr; }
+            .about-wrapper { gap: 40px; }
+            .showcase-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
             .creators-wrapper { flex-direction: column; }
-            .pillars-row { flex-direction: column; }
+            .pillars-row { flex-direction: column; align-items: center; }
+            .pillar-item { width: 100%; max-width: 100%; }
         }
 
     </style>
@@ -330,10 +334,11 @@
 
     <section class="section" id="sobre">
         <div class="container">
-            <div class="about-grid">
+            <div class="about-wrapper">
+                
                 <div class="about-text reveal">
                     <h3>Muito mais que código.</h3>
-                    <p>A <strong>LYNK</strong> nasceu da união entre design e lógica. Somos uma agência focada em criar experiências digitais que não apenas funcionam, mas impressionam.</p>
+                    <p>A <strong>LYNK</strong> nasceu da união entre design, lógica e estratégia. Somos uma agência focada em criar experiências digitais que não apenas funcionam, mas impressionam e convertem.</p>
                     <p>Não usamos apenas templates. Desenvolvemos ecossistemas pensados para a identidade única de cada cliente.</p>
                     
                     <div class="pillars-row">
@@ -356,18 +361,28 @@
                 </div>
 
                 <div class="creators-wrapper reveal">
+                    
                     <div class="creator-card">
                         <div class="creator-img"><i class="fas fa-code"></i></div>
                         <h4>Eduardo Hort</h4>
                         <span>Co-Founder & Tech Lead</span>
                         <p style="font-size: 0.9rem; margin-top: 10px; color: #888;">Especialista em desenvolvimento e arquitetura de sistemas. A mente lógica que garante a performance e segurança da LYNK.</p>
                     </div>
+
+                    <div class="creator-card">
+                        <div class="creator-img"><i class="fas fa-chess-knight"></i></div>
+                        <h4>Vinícius Limberger</h4>
+                        <span>Strategy Lead & Developer</span>
+                        <p style="font-size: 0.9rem; margin-top: 10px; color: #888;">Especialista em alinhar tecnologia aos objetivos de negócio. Transforma dados em estratégias de crescimento e código eficiente.</p>
+                    </div>
+
                     <div class="creator-card">
                         <div class="creator-img"><i class="fas fa-pen-fancy"></i></div>
                         <h4>João Lucas</h4>
                         <span>Co-Founder & Creative Lead</span>
                         <p style="font-size: 0.9rem; margin-top: 10px; color: #888;">Visionário focado em UI/UX e branding. Transforma ideias abstratas em experiências visuais memoráveis.</p>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -495,7 +510,7 @@
             </div>
             
             <p style="font-size: 0.8rem; color: #444;">&copy; 2024 LYNK. Todos os direitos reservados.</p>
-            <p style="font-size: 0.8rem; color: #444; margin-top: 5px;">Desenvolvido por Eduardo Hort & João Lucas.</p>
+            <p style="font-size: 0.8rem; color: #444; margin-top: 5px;">Desenvolvido por Eduardo Hort, João Lucas & Vinícius Limberger.</p>
         </div>
     </footer>
 
