@@ -178,6 +178,12 @@
             padding-top: 80px;
         }
 
+        /* CORREÇÃO DO CLIQUE: Garante que o texto fique acima do vídeo */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
         .gradient-text-anim {
             background: linear-gradient(90deg, #ffffff, #a0a0b0, var(--accent-primary), #ffffff);
             background-size: 300%;
@@ -409,6 +415,21 @@
             background: linear-gradient(180deg, var(--bg-color) 0%, rgba(88, 101, 242, 0.05) 50%, var(--bg-color) 100%);
         }
         
+        /* Tag de Manutenção */
+        .maintenance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0 auto 40px; /* Centralizado e com espaço abaixo */
+            max-width: fit-content;
+        }
+        
         .showcase-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
             gap: 30px; margin-top: 40px;
@@ -539,7 +560,7 @@
                 </a>
             </div>
         </div>
-        <div class="scroll-down" style="bottom: 10px; opacity: 0.5;"><i class="fas fa-chevron-down"></i></div>
+        <div class="scroll-down" style="bottom: 10px; opacity: 0.5; position: absolute; left: 50%; transform: translateX(-50%); color: white;"><i class="fas fa-chevron-down"></i></div>
     </section>
 
     <div class="stylized-video-wrapper reveal">
@@ -709,10 +730,15 @@
     </div>
 
     <section class="section" id="portfolio">
-        <div class="container">
-            <div class="section-header reveal">
+        <div class="container" style="text-align: center;">
+            <div class="section-header reveal" style="margin-bottom: 30px;">
                 <h2>Portfólio & Galeria</h2>
                 <p>Veja exemplos visuais do padrão de qualidade LYNK.</p>
+            </div>
+            
+            <div class="maintenance-badge reveal">
+                <i class="fas fa-tools"></i>
+                <span>Portfólio em atualização</span>
             </div>
             
             <div class="showcase-grid">
