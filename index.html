@@ -120,13 +120,24 @@
             transition: opacity 0.1s linear;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (MODIFICADO PARA EFEITO FADE) --- */
         header {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 20px 0;
-            backdrop-filter: blur(15px);
-            background: rgba(8, 8, 12, 0.8);
+            /* Estado Inicial: Transparente e maior */
+            padding: 30px 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s ease; /* Suaviza a transição */
+        }
+
+        /* Classe que será adicionada via JS ao rolar */
+        header.scrolled {
+            padding: 15px 0; /* Fica mais compacto */
+            background: rgba(8, 8, 12, 0.85); /* Fundo escuro */
+            backdrop-filter: blur(15px); /* Desfoque */
             border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
@@ -171,11 +182,12 @@
 
         /* --- HERO SECTION --- */
         .hero {
-            min-height: 85vh; /* Ajustado para dar espaço ao vídeo */
+            min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
             text-align: center;
             position: relative;
-            padding-top: 80px;
+            padding-top: 120px; /* Garante que o texto não fique escondido sob o menu */
+            padding-bottom: 60px;
         }
 
         /* CORREÇÃO DO CLIQUE: Garante que o texto fique acima do vídeo */
@@ -213,12 +225,12 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- NOVO ESTILO DO VÍDEO LOOP --- */
+        /* --- NOVO ESTILO DO VÍDEO LOOP (HERO) --- */
         .stylized-video-wrapper {
             position: relative;
             width: 100%;
             max-width: 1000px;
-            margin: -60px auto 80px; /* Sobe um pouco sobre o hero para integrar */
+            margin: 40px auto 80px; 
             padding: 0 20px;
             z-index: 3;
             perspective: 1000px;
@@ -250,7 +262,6 @@
             object-fit: cover;
         }
 
-        /* Máscara de degrade para integrar o vídeo ao fundo preto */
         .video-overlay-gradient {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 30%;
@@ -259,7 +270,6 @@
             z-index: 2;
         }
         
-        /* Detalhe "tech" nos cantos do vídeo */
         .tech-corner {
             position: absolute; width: 20px; height: 20px;
             border-color: var(--accent-glow); border-style: solid;
@@ -415,20 +425,47 @@
             background: linear-gradient(180deg, var(--bg-color) 0%, rgba(88, 101, 242, 0.05) 50%, var(--bg-color) 100%);
         }
         
-        /* Tag de Manutenção */
-        .maintenance-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--accent-primary);
-            color: var(--accent-primary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin: 0 auto 40px; /* Centralizado e com espaço abaixo */
-            max-width: fit-content;
+        /* --- VIDEO SHOWCASE GRID SYSTEM --- */
+        .video-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Dividir em 2 colunas */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 60px; /* Margem inferior */
         }
+
+        .video-showcase-wrapper {
+            width: 100%;
+            background: #111;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+        .video-showcase-wrapper:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(88,101,242,0.2);
+        }
+
+        .video-player {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 20px 25px;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+        }
+
+        .video-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: white; }
+        .video-info p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
         
         .showcase-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
@@ -511,6 +548,8 @@
             .creators-wrapper { flex-direction: column; }
             .pillars-row { flex-direction: column; align-items: center; }
             .pillar-item { width: 100%; max-width: 100%; }
+            .video-info { text-align: center; justify-content: center; }
+            .video-row { grid-template-columns: 1fr; } /* Empilha os vídeos no mobile */
         }
     </style>
 </head>
@@ -578,6 +617,7 @@
             <div class="video-overlay-gradient"></div>
         </div>
     </div>
+
     <section class="section" id="sobre">
         <div class="container">
             <div class="about-wrapper">
@@ -736,9 +776,32 @@
                 <p>Veja exemplos visuais do padrão de qualidade LYNK.</p>
             </div>
             
-            <div class="maintenance-badge reveal">
-                <i class="fas fa-tools"></i>
-                <span>Portfólio em atualização</span>
+            <div class="video-row reveal">
+                <div class="video-showcase-wrapper">
+                    <video class="video-player" controls autoplay muted loop>
+                        <source src="giacometti maurer.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
+                    <div class="video-info">
+                        <div>
+                            <h3>Giacometti Maurer Advocacia</h3>
+                            <p>Site Institucional de Advocacia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-showcase-wrapper">
+                    <video class="video-player" controls autoplay muted loop>
+                        <source src="estatecuradoriadeluxo.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
+                    <div class="video-info">
+                        <div>
+                            <h3>Estate Curadoria de Luxo</h3>
+                            <p>Site de Venda de Imóveis</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="showcase-grid">
@@ -902,12 +965,24 @@
         }
         initParticles(); animateParticles();
 
+        // --- 3. Scroll Events (Header & Partículas) ---
         window.addEventListener('scroll', () => {
-            const opacity = 1 - (window.scrollY / window.innerHeight);
+            const scrollY = window.scrollY;
+            
+            // Partículas
+            const opacity = 1 - (scrollY / window.innerHeight);
             document.getElementById('particles-canvas').style.opacity = Math.max(0, opacity);
+
+            // Header Fade
+            const header = document.querySelector('header');
+            if (scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         });
 
-        // --- 3. Spotlight e Tilt 3D Logic ---
+        // --- 4. Spotlight e Tilt 3D Logic ---
         document.getElementById("cards-area").onmousemove = e => {
             for(const card of document.getElementsByClassName("feature-card")) {
                 const rect = card.getBoundingClientRect(),
@@ -935,7 +1010,7 @@
              }
         }
 
-        // --- 4. Scroll Reveal ---
+        // --- 5. Scroll Reveal ---
         window.addEventListener('scroll', reveal);
         function reveal(){
             var reveals = document.querySelectorAll('.reveal');
@@ -947,7 +1022,7 @@
         }
         reveal();
 
-        // --- 5. Lightbox ---
+        // --- 6. Lightbox ---
         function openLightbox(imageSrc) {
             document.getElementById('lightbox-img').src = imageSrc;
             const lb = document.getElementById('lightbox');
